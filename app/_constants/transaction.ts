@@ -114,3 +114,4 @@ export const TRANSACTION_CATEGORY_OPTIONS = [
     label: TRANSACTION_CATEGORY_LABELS[TransactionCategory.UTILITY],
   },
 ];
+export { TransactionCategory, TransactionPaymentMethod, TransactionType };
