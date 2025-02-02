@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className="flex items-center gap-10">
         <Image src="/logo.svg" width={173} height={39} alt="Finance AI" />
         <Link
-          href="/Dasboard"
+          href="/login"
           className={
             pathname === "/"
               ? "font-bold text-primary"
@@ -24,7 +24,7 @@ const Navbar = () => {
           Dashboard{" "}
         </Link>
         <Link
-          href="/Transactions"
+          href="/transactions"
           className={
             pathname === "/transactions"
               ? "font-bold text-primary"
