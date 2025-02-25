@@ -5,6 +5,7 @@ import {
   WalletIcon,
 } from "lucide-react";
 import SummaryCard from "./summary-card";
+
 interface SummaryCards {
   month: string;
   balance: number;
@@ -12,9 +13,11 @@ interface SummaryCards {
   investmentsTotal: number;
   expensesTotal: number;
 }
+
 const SummaryCards = async ({
   balance,
   depositsTotal,
+  expensesTotal,
   investmentsTotal,
 }: SummaryCards) => {
   return (
@@ -49,4 +52,5 @@ const SummaryCards = async ({
     </div>
   );
 };
+
 export default SummaryCards;
