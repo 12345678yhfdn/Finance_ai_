@@ -5,6 +5,7 @@ import UpsertTransactionButton from "../_components/add-transaction-button";
 import Navbar from "../_components/navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { ScrollArea } from "../_components/ui/scroll-area";
 
 const transactionsPage = async () => {
   const { userId } = await auth();
@@ -20,16 +21,18 @@ const transactionsPage = async () => {
   return (
     <>
       <Navbar></Navbar>
-      <div className="space-y-6 p-6">
+      <div className="space-y-6 overflow-hidden p-6">
         {/*titulo e botão*/}
         <div className="flex w-full items-center justify-between">
           <h1 className="text-2xl font-bold">Transações </h1>
           <UpsertTransactionButton />
         </div>
-        <DataTable
-          columns={transactioncolumns}
-          data={JSON.parse(JSON.stringify(transactions))}
-        />
+        <ScrollArea>
+          <DataTable
+            columns={transactioncolumns}
+            data={JSON.parse(JSON.stringify(transactions))}
+          />
+        </ScrollArea>
       </div>
     </>
   );

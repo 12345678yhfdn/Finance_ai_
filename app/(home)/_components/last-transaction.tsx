@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Transaction, TransactionType } from "@prisma/client";
 import { formatCurrency } from "@/app/_utils/currency";
+import { TRANSACTION_PAYMENT_METHOD_ICONS } from "@/app/_constants/transaction";
 
 interface LastTransactionsProps {
   lastTransactions: Transaction[];
@@ -21,6 +22,12 @@ const LastTransactions = ({ lastTransactions }: LastTransactionsProps) => {
     return "text-white";
   };
 
+  const getAmountPrefix = (transaction: Transaction) => {
+    if (transaction.type === TransactionType.DEPOSIT) {
+      return "+";
+    }
+    return "-";
+  };
   return (
     <ScrollArea className="rounded-md border">
       <CardHeader className="flex-row items-center justify-between">
@@ -35,8 +42,17 @@ const LastTransactions = ({ lastTransactions }: LastTransactionsProps) => {
             key={transaction.id}
             className="flex items-center justify-between"
           >
-            <div className="flex items-center gap-2 bg-white bg-opacity-[3%]">
-              <Image src="/pix.svg" height={20} width={20} alt="Pix" />
+            <div className="flex items-center gap-3">
+              <div className="rounded-lg bg-white bg-opacity-[3%] p-3">
+                <Image
+                  src={
+                    TRANSACTION_PAYMENT_METHOD_ICONS[transaction.paymentMethod]
+                  }
+                  height={20}
+                  width={20}
+                  alt="Pix"
+                />
+              </div>
               <div>
                 <p className="text-sm font-bold">{transaction.name}</p>
                 <p className="text-sm text-gray-500">
@@ -49,6 +65,7 @@ const LastTransactions = ({ lastTransactions }: LastTransactionsProps) => {
               </div>
             </div>
             <p className={`text-sm font-bold ${getPriceColor(transaction)}`}>
+              {getAmountPrefix(transaction)}
               {formatCurrency(Number(transaction.amount))}
             </p>
           </div>
