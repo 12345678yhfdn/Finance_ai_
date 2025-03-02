@@ -1,11 +1,17 @@
 import { db } from "@/app/_lib/prisma";
 import { TransactionType } from "@prisma/client";
 import { TotalExpensePerCategory, TransactionPercentagePerType } from "./types";
+import { auth } from "@clerk/nextjs/server"; // Importe corretamente o auth do Clerk
 
 export const getDashboard = async (month: string) => {
+  const { userId } = await auth();
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
   // Definição da função para calcular os dados do dashboard
   const fetchSummaryCards = async (month: string) => {
     const where = {
+      userId,
       date: {
         gte: new Date(`2025-${month}-01`), // Primeiro dia do mês
         lt: new Date(`2025-${month}-31`), // Último dia do mês
