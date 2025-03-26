@@ -16,7 +16,6 @@ const AcquirePlanButton = () => {
     if (!stripe) {
       throw new Error("Stripe not found");
     }
-
     await stripe.redirectToCheckout({ sessionId });
   };
   return (
