@@ -1,10 +1,10 @@
 "use client";
+
+import { Transaction } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import TransactionTypeBadge from "../_components/type-badge";
-
 import { Button } from "@/app/_components/ui/button";
 import { TrashIcon } from "lucide-react";
-import { Transaction } from "@prisma/client";
 import {
   TRANSACTION_CATEGORY_LABELS,
   TRANSACTION_PAYMENT_METHOD_LABELS,
@@ -16,7 +16,6 @@ export const transactioncolumns: ColumnDef<Transaction>[] = [
     accessorKey: "name",
     header: "Nome",
   },
-
   {
     accessorKey: "type",
     header: "Tipo",
@@ -24,21 +23,18 @@ export const transactioncolumns: ColumnDef<Transaction>[] = [
       <TransactionTypeBadge transaction={transaction} />
     ),
   },
-
   {
     accessorKey: "category",
     header: "Categoria",
     cell: ({ row: { original: transaction } }) =>
       TRANSACTION_CATEGORY_LABELS[transaction.category],
   },
-
   {
     accessorKey: "paymentMethod",
     header: "Método de Pagamento",
     cell: ({ row: { original: transaction } }) =>
       TRANSACTION_PAYMENT_METHOD_LABELS[transaction.paymentMethod],
   },
-
   {
     accessorKey: "date",
     header: "Data",
@@ -49,7 +45,6 @@ export const transactioncolumns: ColumnDef<Transaction>[] = [
         year: "numeric",
       }),
   },
-
   {
     accessorKey: "amount",
     header: "Valor",
@@ -59,7 +54,6 @@ export const transactioncolumns: ColumnDef<Transaction>[] = [
         currency: "BRL",
       }).format(Number(transaction.amount)),
   },
-
   {
     accessorKey: "actions",
     header: "Ações",

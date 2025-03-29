@@ -17,7 +17,7 @@ model Transaction {
   id            String                   @id @default(uuid())
   name          String
   type          TransactionType
-  amount        Decimal
+  amount        Decimal                  @db.Decimal(10, 2)
   category      TransactionCategory
   paymentMethod TransactionPaymentMethod
   date          DateTime
@@ -29,7 +29,7 @@ model Transaction {
 enum TransactionType {
   DEPOSIT
   EXPENSE
-  INVESTEMENT
+  INVESTMENT
 }
 
 enum TransactionCategory {
@@ -47,7 +47,7 @@ enum TransactionCategory {
 enum TransactionPaymentMethod {
   CREDIT_CARD
   DEBIT_CARD
-  BANK_TRASEER
+  BANK_TRANSFER
   BANK_SLIP
   CASH
   PIX
