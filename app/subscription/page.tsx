@@ -1,11 +1,13 @@
 import { redirect } from "next/navigation";
 
 import Navbar from "../_components/navbar";
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { Card, CardContent, CardHeader } from "../_components/ui/card";
 import { CheckIcon, XIcon } from "lucide-react";
-
+import { Badge } from "@/app/_components/ui/badge";
 import AcquirePlanButton from "./_components/acquire-plan-button";
+
+import { getCurrentMonthTransactions } from "../_data/get-current-month-transctions";
 
 const SubscriptionPage = async () => {
   const { userId } = await auth();
@@ -13,9 +15,13 @@ const SubscriptionPage = async () => {
     redirect("/login");
   }
 
+  const user = await clerkClient().users.getUser(userId);
+  const currentMonthTransactions = await getCurrentMonthTransactions();
+  const hasPremiumPlan = user.publicMetadata.subscriptionPlan === "premium"; // Corrigido
+
   return (
     <>
-      <Navbar />;
+      <Navbar />
       <div className="space-y-6 p-6">
         <h1 className="text-2xl font-bold">Assinaturas</h1>
         <div className="flex gap-6">
@@ -33,7 +39,10 @@ const SubscriptionPage = async () => {
             <CardContent className="space-y-6 py-8">
               <div className="flex items-center gap-2">
                 <CheckIcon className="text-primary" />
-                <p> Apenas 10 transações por mês (7/10)</p>
+                <p>
+                  {" "}
+                  Apenas 10 transações por mês ({currentMonthTransactions}/ 10)
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <XIcon />
@@ -43,7 +52,12 @@ const SubscriptionPage = async () => {
           </Card>
 
           <Card className="w-[450px]">
-            <CardHeader className="border-b border-solid py-8">
+            <CardHeader className="relative border-b border-solid py-8">
+              {hasPremiumPlan && (
+                <Badge className="leght-4 top-15 absolute bg-primary/10">
+                  Ativo
+                </Badge>
+              )}
               <h2 className="text-center text-2xl font-semibold">
                 Plano Premium
               </h2>
